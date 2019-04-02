@@ -1,0 +1,102 @@
+
+<template>
+  <view class='container1'>
+    <view style="margin:10% 0;text-align:center;width:100%">
+        <image style="padding:0 3%;width:92%;height:250px" src="{{goWhere}}"></image>
+    </view>
+      <view class="btn" @tap="clearTime">就决定是你了</view>
+      <view class="btn" @tap="setTime">不行 再来一次</view>
+
+ <!-- <canvas
+  style="width: 400px; height:200px;border:1px;position:absolute;top:0;left:0; solid black;pointer-events:none"
+  canvas-id="first"
+  disable-scroll=true
+  ></canvas> -->
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class Example extends wepy.page {
+    config = {
+      navigationBarTitleText: "我们吃点啥",
+    };
+
+    data = {
+      num:0,
+    //   textArr:['隔壁老王','陕老顺','百家旺','麦当劳','硅谷走一圈','兰州拉面','sevenEleven'],
+      textArr:[],
+      goWhere:'',
+      fun:'',
+      time:100,
+      length:'',
+    };
+    components = {};
+    
+    methods = {
+        begin(){
+            wepy.showToast({
+              title: 'title', //提示的内容,
+              icon: 'success', //图标,
+              duration: 2000, //延迟时间,
+              mask: true, //显示透明蒙层，防止触摸穿透,
+              success: res => {}
+            });
+            
+        },
+       
+    };
+    setTime(){
+      clearInterval(this.fun);
+      this.fun = '';
+          this.fun = setInterval(() => {
+            this.num++;
+            if(this.num>this.length){
+              this.num = 0
+            }
+            this.goWhere = this.textArr[this.num];
+            this.$apply();
+          }, this.time);
+    };
+    clearTime(){
+      clearInterval(this.fun);
+      this.fun = '';
+      this.$apply();
+
+    }
+    events = {};
+
+    watch = {
+
+    };
+
+    computed = {};
+
+    onLoad(options) {
+        var obj =JSON.parse(options.obj)
+        this.textArr = obj;
+        this.time = 100;
+        this.length = this.textArr.length - 1;
+        this.setTime();
+     };
+     onUnload(){
+        clearInterval(this.fun);
+     }
+    onShow() {
+        
+     };
+  }
+</script>
+
+<style lang='scss'>
+.container1{
+    position: relative;
+    .btn{
+      border:1px solid red;
+      border-radius: 4px;
+      margin: 10% 30%;
+      padding:20px 0;
+      text-align: center;
+    }
+}
+</style>

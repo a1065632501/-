@@ -1,0 +1,132 @@
+<!--  -->
+<template>
+  <view class='container'>
+    <view class="original">原数组：{{originalArr}}</view>
+    <view class="result">{{type}}结果：{{result}}</view>
+    <view class="input_wrap">
+      <input type="text" placeholder="输入一组数组(空格隔开)" placeholder-class="placeholder" maxlength="140" bindinput='userNameFn' />
+    </view>
+    <view class="btn" wx:for="{{btnArr}}" @tap="getResult({{index}})"> {{item}}</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class Example extends wepy.page {
+    config = {
+      navigationBarTitleText: "算法",
+    };
+    data = {
+      type: '',
+      originalArr: '',
+      title: '',
+      result: '',
+      btnArr: ['去重', '排序', '逆序', '求和'],
+      arr: '',
+      temporaryArr: [],
+    };
+    userNameFn(event) {
+      this.title = event.detail.value
+      this.originalArr = this.title
+      if (event.detail.value === '') {
+        this.title = ''
+        this.result = ''
+        this.type = ''
+      }
+    };
+    components = {};
+    methods = {
+      getResult(index) {
+        switch (index) {
+          case 0:
+            this.arr = this.title.split(' ')
+            this.temporaryArr = []
+            this.arr.map((item) => {
+              if (this.temporaryArr.indexOf(item) == -1) {
+                this.temporaryArr.push(item)
+              }
+            })
+            this.result = this.temporaryArr
+            this.type = '去重后'
+            break;
+          case 1:
+            this.arr = this.title.split(' ')
+            this.temporaryArr = []
+            for(let i=0;i<this.arr.length;i++){
+              for(let j=i+1;j<this.arr.length;j++){
+                  if(Number(this.arr[i])>Number(this.arr[j])){
+                    let a = this.arr[i]
+                    this.arr[i] = this.arr[j]
+                    this.arr[j] = a
+                  }
+              }
+            }
+            this.result = this.arr
+            this.type = '排序后'
+            break;
+          case 2:
+            this.arr = this.title.split(' ')
+            this.result = this.arr.reverse()
+            this.type = '逆序后'
+            break;
+          case 3:
+            this.arr = this.title.split(' ')
+            var num = 0
+            this.arr.map((item)=>{
+              num = num + Number(item)
+            })
+            this.result = num
+            this.type = '求和后'
+            break;
+            case 4:
+            // this.arr = this.title.split(' ')
+            // var random = Math.random()>0.5?1:-1
+            // this.result = this.arr.sort(random)
+            // for(let k=0;k<this.arr.length;k++){
+            //   for(let l=k+1;l<this.arr.length;l++){
+                 
+            //   }
+            // }
+            // this.type = '打乱后'
+            break;
+        }
+      }
+    };
+    events = {};
+    watch = {};
+    computed = {};
+    onLoad() {};
+    onShow() {};
+  }
+</script>
+
+<style lang="less">
+  .container {
+    .original {
+      width: 100%;
+      padding-left: 4%;
+    }
+    .result {
+      width: 100%;
+      padding-left: 4%;
+    }
+    .input_wrap {
+      input {
+        padding: 5px 4px;
+        margin: 10px 4% 0 4%;
+        border: 1px solid blue;
+      }
+    }
+    .btn {
+      margin-top: 15px;
+      background: rgb(157, 157, 240);
+      width: 44%;
+      height: 40px;
+      color: #fff;
+      margin-left: 4%;
+      float: left;
+      line-height: 40px;
+      text-align: center;
+    }
+  }
+</style>

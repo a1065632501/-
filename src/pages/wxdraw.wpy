@@ -1,0 +1,143 @@
+
+<template>
+  <view class='container_wxdraw'>
+    <view class="title">亲~今天从哪几家挑呢</view>
+    <view class="wrap">
+      <view
+        class="checkbox"
+        wx:for="{{items}}"
+        wx:key="{{index}}"
+      >
+        <span
+          data-index="{{index}}"
+          @tap="add"
+        >{{item.num}} {{item.name}}</span>
+      </view>
+    </view>
+    <view
+      @tap="goTo"
+      style='margin:10px 20%;padding:10px 0 ;border:1px solid red;text-align:center'
+    >选好啦</view>
+    <view
+      @tap="reset"
+      style='margin:10px 20%;padding:10px 0 ;border:1px solid red;text-align:center'
+    >重置</view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Example extends wepy.page {
+  config = {
+    navigationBarTitleText: '我们吃点啥'
+  };
+
+  data = {
+    title: '',
+    items: [
+      { name: '老王家', value: '../img/5.png', num: 0 },
+      { name: '陕老顺', value: '../img/10.png', num: 0 },
+      { name: '佰佳旺', value: '../img/4.png', num: 0 },
+      { name: '麦当劳', value: '../img/6.png', num: 0 },
+      { name: '亿碗饭', value: '../img/1.png', num: 0 },
+      { name: '食面堂', value: '../img/8.png', num: 0 },
+      { name: '兰州拉面', value: '../img/7.png', num: 0 },
+      { name: 'sevenEleven', value: '../img/9.png', num: 0 },
+      { name: '汉堡王', value: '../img/3.png', num: 0 },
+      { name: '卤派三叔', value: '../img/2.png', num: 0 }
+    ],
+    textArr: []
+  };
+  components = {};
+  methods = {
+    add(e) {
+      var index = e.currentTarget.dataset.index;
+      this.items[index].num++;
+    },
+    reset() {
+      this.items.map(it => {
+        it.num = 0;
+      });
+    },
+    goTo() {
+      this.textArr = [];
+      this.items.map(it => {
+        while (it.num > 0) {
+          this.textArr.push(it.value);
+          it.num--;
+        }
+      });
+      var arr = new Set(this.textArr);
+
+      function randomArr(a) {
+        var len = a.length;
+        for (var i = 0; i < len; i++) {
+          var end = len - 1;
+          var index = (Math.random() * (end + 1)) >> 0;
+          var t = a[end];
+          a[end] = a[index];
+          a[index] = t;
+        }
+        return a;
+      }
+      this.textArr = randomArr(this.textArr);
+      console.log(this.textArr);
+      if (arr.size >= 2) {
+        var obj = JSON.stringify(this.textArr);
+        wepy.navigateTo({
+          url: '/pages/eat?obj=' + obj
+        });
+      } else {
+        switch (arr.size) {
+          case 0:
+            this.title = '大哥，别吃了，饿着把';
+            break;
+          case 1:
+            this.title = '老兄，一个你还用我干嘛';
+            break;
+        }
+        wx.showToast({
+          title: this.title,
+          icon: 'none',
+          duration: 1000,
+          mask: true
+        });
+      }
+    }
+  };
+
+  events = {};
+
+  watch = {};
+
+  computed = {};
+
+  onLoad() {}
+
+  onShow() {}
+}
+</script>
+
+<style lang='scss'>
+.container_wxdraw {
+  position: relative;
+  .title {
+    padding: 5px 5%;
+  }
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    .checkbox {
+      padding: 5px 5%;
+    }
+  }
+
+  .btn {
+    border: 1px solid red;
+    border-radius: 4px;
+    margin: 10% 30%;
+    padding: 20px 0;
+    text-align: center;
+  }
+}
+</style>

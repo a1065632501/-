@@ -1,0 +1,56 @@
+
+<template>
+  <view class='container'>
+        <canvas
+        style="width: 400px; height: 500px;"
+        canvas-id="firstCanvas"
+        binderror="canvasIdErrorCallback"
+      ></canvas>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class Example extends wepy.page {
+    config = {
+      navigationBarTitleText: "canvas",
+    };
+
+    data = {};
+
+    components = {};
+
+    methods = {};
+
+    events = {};
+
+    watch = {};
+
+    computed = {};
+
+    onLoad() {
+        const context = wx.createCanvasContext('firstCanvas')
+        context.setStrokeStyle('#555555')
+        context.setLineWidth(5)
+        context.rect(50, 50, 200, 200)
+        context.stroke()
+        context.setStrokeStyle('#ff0ff0')
+        context.setLineWidth(2)
+        context.moveTo(160, 100)
+        context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+        context.moveTo(140, 100)
+        context.arc(100, 100, 40, 0, Math.PI, false)
+        context.moveTo(85, 80)
+        context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+        context.moveTo(125, 80)
+        context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+        context.stroke()
+        context.draw()
+    };
+
+    onShow() {};
+  }
+</script>
+
+<style lang='scss'>
+</style>

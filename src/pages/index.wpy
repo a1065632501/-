@@ -1,0 +1,78 @@
+<!--  -->
+<template>
+  <view class="container">
+  <view>
+      <span class="match_title">算法大全</span>
+      <span class="to_match" @tap="arrCompute">GO GO GO</span>
+  </view>
+  <view>
+      <span class="match_title">canvas</span>
+      <span class="to_match" @tap="canvas">GO GO GO</span>
+  </view>
+  <view>
+      <span class="match_title">中午吃啥</span>
+      <span class="to_match" @tap="wxdraw">GO GO GO</span>
+  </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class Example extends wepy.page {
+    config = {
+      navigationBarTitleText: "我滴小程序",
+    };
+
+    data = {};
+
+    components = {};
+
+    methods = {
+      arrCompute(){
+        wepy.navigateTo({
+          url:'/pages/reg'
+        })
+      },
+      canvas(){
+        wepy.navigateTo({
+          url:'/pages/canvas'
+        })
+      },
+      wxdraw(){
+        wepy.navigateTo({
+          url:'/pages/wxdraw'
+        })
+      }
+    };
+  
+    events = {};
+
+    watch = {};
+
+    computed = {};
+
+    onLoad() {
+      
+     };
+
+    onShow() { };
+  }
+</script>
+
+<style lang="less">
+.container{
+  height: 200px;
+  .match_title{
+    display: inline-block;
+    padding:20px 20px;
+    width:30%;
+  }
+  .to_match{
+    padding: 0 5px;
+    border: 1px solid #fff;
+    background: #f75751;
+    border-radius: 10px;
+    color: #fff;
+  }
+}
+</style>
